@@ -65,12 +65,12 @@ function setupGallery() {
             caption:  "Free Wi-Fi"  
         },
         {
-            src: "images/takeou.png",
+            src: "images/takeout.png",
             alt: "Cup o' Joe takeaway cup and paper takeout bag",
             caption:  "Takeout orders"  
         }
     ];
-}
+
 
 
 // this is now the contact form validation
@@ -81,7 +81,7 @@ let currentIndex =0;
 function updateGallery() {
     const item = galleryItems[currentIndex];
 
-    galleryImage.src =item.src;
+    galleryImage.src = item.src;
     galleryImage.alt = item.alt;
     galleryCaption.textContent = item.caption;
     galleryStatus.textContent = `${currentIndex + 1} of ${galleryItems.length}`; 
@@ -94,9 +94,11 @@ nextButton.addEventListener("click", () => {
 
 previousButton.addEventListener("click", () => {
     currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+
     updateGallery();
 });
 
+}
 
 //Contact form validation
 // prevent reload check fields and DOM feedback.
@@ -113,7 +115,7 @@ function setupContactForm() {
 
 const nameInput = document.getElementById("name");
 const emailInput= document.getElementById("email");
-const messageInput = document.getElementById("nameError");
+const messageInput = document.getElementById("message");
 
 const nameError = document.getElementById("nameError");
 const emailError = document.getElementById("emailError");
@@ -131,13 +133,13 @@ form.addEventListener("submit", (event) => {
     if (nameInput.value.trim().length < 2) {
         showError(nameInput, nameError, "Please enter at least 2 characters for your name.");
         formIsValid = false;
-        firstInvalidField = firstInvalidField || emailInput;
+        firstInvalidField = firstInvalidField || nameInput;
     }
 
     if (!isValidEmail(emailInput.value.trim())) {
         showError(emailInput, emailError, "Please enter a valid email address");
         formIsValid = false;
-        firstInvalidField = firstInvalidField || messageInput;
+        firstInvalidField = firstInvalidField || emailInput;
     }
 
     if (messageInput.value.trim().length < 10) {
@@ -154,7 +156,7 @@ form.addEventListener("submit", (event) => {
     }
 
     formFeedback.textContent = "Thanks! your message passed validation and is ready to send.";
-    formFeedback.className = "form-feedback error";
+    formFeedback.className = "form-feedback success";
     form.reset();
 });
 
@@ -163,18 +165,18 @@ function clearErrors() {
     emailError.textContent = "";
     messageError.textContent = "";
     formFeedback.textContent = "";
-    formFeedback.className = "form=feedback";
+    formFeedback.className = "form-feedback";
 
     [nameInput, emailInput, messageInput].forEach((field) => {
         field.classList.remove("input-error");
-        FileReader.removeAttribute("aria-invalid");
+        field.removeAttribute("aria-invalid");
     });
 }
 
 function showError(input, errorElement, message) {
     errorElement.textContent = message;
     input.classList.add("input-error");
-    input.setAttribute("arian-invalid", "true");
+    input.setAttribute("aria-invalid", "true");
 }
 
 function isValidEmail(email) {
