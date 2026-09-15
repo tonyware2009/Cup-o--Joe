@@ -58,7 +58,7 @@ p {
 
 .logo {
     width: clamp(80px 10vw, 115px);
-    height: auto;
+    height: 300px;
     border-radius: 50%;
 }
 
@@ -533,5 +533,5 @@ button:focus,
     .gallery-controls button {
         width: 100%;
     }
-    
+
 }
