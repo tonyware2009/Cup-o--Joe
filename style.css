@@ -407,3 +407,131 @@ textarea {
     font-weight: 800;
 }
 
+.form-feedback.success {
+    color: var(--success);
+}
+
+.form-feedback.error {
+    color: var(--error);
+}
+
+.input-error {
+    border-color: var(--error);
+    background-color: #fff6f6;
+}
+
+.visit-card {
+    overflow: hidden;
+}
+
+.visit-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.visit-card-body {
+    padding: 20px;
+}
+
+.small-note {
+    color: var(--muted);
+    font-size: 0.82rem;
+}
+
+.footer {
+    margin-top: 48px;
+    padding: 24px 16px;
+    text-align: center;
+    color: var(--white);
+    background-color: var(--coffee-dark);
+}
+
+.footer p {
+    margin: 4px 0;
+}
+
+.footer-tagline {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+}
+
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translate(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+input:focus,
+textarea:focus,
+button:focus,
+.navigation a:focus,
+.primary-button:focus {
+    outline: 3px solid #d69752;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .reveal-on-scroll {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 760px){
+    .contact-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .brand-wrap {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .navigation {
+        gap: 4px;
+    }
+
+    .navigation a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .hero {
+        min-height: 370px;
+        padding: 16px;
+    }
+
+    .hero-content {
+        width: 100%;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-controls {
+        flex-direction: column;
+    }
+
+    .gallery-controls button {
+        width: 100%;
+    }
+    
+}
