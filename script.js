@@ -76,4 +76,140 @@ function setupGallery() {
 // this is now the contact form validation
 // this will prevent reload, checks fields, and give the DOM feedback
 
+let currentIndex =0;
 
+function updateGallery() {
+    const item = galleryItems[currentIndex];
+
+    galleryImage.src =item.src;
+    galleryImage.alt = item.alt;
+    galleryCaption.textContent = item.caption;
+    galleryStatus.textContent = `${currentIndex + 1} of ${galleryItems.length}`; 
+}
+
+nextButton.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % galleryItems.length;
+    updateGallery();
+});
+
+previousButton.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+    updateGallery();
+});
+
+
+//Contact form validation
+// prevent reload check fields and DOM feedback.
+
+function setupContactForm() {
+    const form = document.getElementById("contactForm");
+
+    // this code only runs on contact page
+
+    if (!form){
+        return;
+    }
+
+
+const nameInput = document.getElementById("name");
+const emailInput= document.getElementById("email");
+const messageInput = document.getElementById("nameError");
+
+const nameError = document.getElementById("nameError");
+const emailError = document.getElementById("emailError");
+const messageError = document.getElementById("messageError");
+const formFeedback = document.getElementById("formFeedback");
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    clearErrors();
+
+    let formIsValid = true;
+    let firstInvalidField =null;
+
+    if (nameInput.value.trim().length < 2) {
+        showError(nameInput, nameError, "Please enter at least 2 characters for your name.");
+        formIsValid = false;
+        firstInvalidField = firstInvalidField || emailInput;
+    }
+
+    if (!isValidEmail(emailInput.value.trim())) {
+        showError(emailInput, emailError, "Please enter a valid email address");
+        formIsValid = false;
+        firstInvalidField = firstInvalidField || messageInput;
+    }
+
+    if (messageInput.value.trim().length < 10) {
+        showError(messageInput, messageError, "Please enter a message with at least 10 characters.");
+        formIsValid = false;
+        firstInvalidField = firstInvalidField || messageInput;
+    }
+
+    if (!formIsValid) {
+        formFeedback.textContent = "Please correct the highlighted fields before continuing.";
+        formFeedback.className = "form-feedback error";
+        firstInvalidField.focus();
+        return;
+    }
+
+    formFeedback.textContent = "Thanks! your message passed validation and is ready to send.";
+    formFeedback.className = "form-feedback error";
+    form.reset();
+});
+
+function clearErrors() {
+    nameError.textContent = "";
+    emailError.textContent = "";
+    messageError.textContent = "";
+    formFeedback.textContent = "";
+    formFeedback.className = "form=feedback";
+
+    [nameInput, emailInput, messageInput].forEach((field) => {
+        field.classList.remove("input-error");
+        FileReader.removeAttribute("aria-invalid");
+    });
+}
+
+function showError(input, errorElement, message) {
+    errorElement.textContent = message;
+    input.classList.add("input-error");
+    input.setAttribute("arian-invalid", "true");
+}
+
+function isValidEmail(email) {
+    const basicEmailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return basicEmailPattern.test(email);
+}
+
+}
+
+function setupScrollReveal() {
+    const items = document.querySelectorAll(".reveal-on-scroll");
+
+    if (!items.length) {
+        return;
+    }
+
+    // respecting the devices and browsers without IntersectObserver.
+
+    if (!("IntersectionObserver" in window)) {
+        items.forEach((item) => item.classList.add("visible"));
+        return;
+    }
+
+
+const observer = new IntersectionObserver(
+    (entries, currentObserver) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting){
+                entry.target.classList.add("visible");
+                currentObserver.unobserve(entry.target);
+            }
+        });
+    },
+    { threshold: 0.15 }
+);
+
+items.forEach((item) => observer.observe(item));
+}
